@@ -19,4 +19,6 @@ Trabalho da disciplina INE5418, contendo a implementação de uma biblioteca do 
 ## Referências
 
 + [Geeksforgeeks - Raymond’s tree based algorithm](https://www.geeksforgeeks.org/raymonds-tree-based-algorithm/);
++ [Implementation of Raymond's tree based algorithm for Distributed Mutual Exclusion](https://github.com/16priyesh/DME-algorithm);
++ [A simple implementation of Raymond's mutual exclusion algorithm](https://github.com/marcdelacruz/Raymond-s-Algorithm);
 + ...
