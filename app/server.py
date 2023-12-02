@@ -68,6 +68,7 @@ def main():
             node.set_holder(node)
             nodes.append(node)
             nodes[0].make_request(node)
+            nodes[0].set_using(False)
 
         else:
             nodes.append(Node(len(nodes), request_q, nodes[0]))
@@ -89,8 +90,7 @@ def new_node(conn, addr, id):
             conn.sendall(value.encode("utf-8"))
 
         elif data[0] == "set":
-
-            nodes[id].make_request(nodes[id])
+            nodes[id].holder.make_request(nodes[id])
 
             """
 
@@ -105,8 +105,7 @@ def new_node(conn, addr, id):
 
             nodes[id].exit_critical_section()
 
-
-            conn.sendall("1".encode("utf-8"))
+            conn.sendall("Key set sucessfully".encode("utf-8"))
             
         elif data[0] == "exit":
             conn.sendall("-1".encode("utf-8"))

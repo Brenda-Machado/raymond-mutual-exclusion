@@ -29,14 +29,15 @@ def main():
     
     client.connect((HOST, PORT))
 
+    print("Commands:")
+    print(" - get <key>")
+    print(" - set <key> <value>")
+    print(" - exit\n")
+
+
     while True:
 
-        print("Commands:")
-        print("get <key>")
-        print("set <key> <value>")
-        print("exit")
-
-        data = input("Enter a command: ")
+        data = input("\nEnter a command: ")
         client.sendall(data.encode("utf-8"))
         data = client.recv(1024)
 
