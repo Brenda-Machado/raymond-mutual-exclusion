@@ -71,5 +71,5 @@ class Node:
 
         print("Node " + str(self.id) + " is exiting the critical section.")
 
-        self.using = False
+        self.set_using(False)
         self.assign_privilege()
