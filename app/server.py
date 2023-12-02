@@ -37,12 +37,14 @@ database = json.load(open("app/database.json"))
 
 """
 
-Creates the request queue and the nodes, where each node is a client.
+Creates the request queue, the nodes, where each node is a client, and the threads.
 
 """
 
 request_q = queue.Queue()
 nodes = []
+threads_list = []
+
 
 """
 
@@ -70,11 +72,9 @@ def main():
         else:
             nodes.append(Node(len(nodes), request_q, nodes[0]))
 
-        thread = threading.Thread(target=new_node, args=(conn, addr, len(nodes) - 1))
+        threads_list.append(threading.Thread(target=new_node, args=(conn, addr, len(nodes) - 1)))
     
-        thread.start()
-    
-    thread.join()
+        threads_list[len(threads_list) - 1].start()
 
 def new_node(conn, addr, id):
 
@@ -144,3 +144,5 @@ def set(key, value):
 
 if __name__ == "__main__":
     main()
+    for thread in threads_list:
+        thread.join()

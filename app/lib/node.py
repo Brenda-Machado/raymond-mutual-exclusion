@@ -38,7 +38,7 @@ class Node:
         self.holder = holder
     
     def make_request(self, node):
-        if self.holder != self and (not self.request_q.empty()) and (not node.asked):
+        if self.holder != self and (not node.asked):
             node.set_asked(True)
             self.holder.make_request(node)
 
@@ -63,6 +63,14 @@ class Node:
             """
 
             print("Node " + str(self.id) + " entered the critical secion.")
+        
+        elif self.holder == self and (not self.using) and self.request_q.empty():
+            self.holder = self
+            self.holder.set_using(False)
+
+            """
+            Waiting for a request.
+            """
 
     def exit_critical_section(self):
 
