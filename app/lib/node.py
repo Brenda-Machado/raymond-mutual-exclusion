@@ -37,67 +37,55 @@ class Node:
     def set_holder(self, holder):
         self.holder = holder
     
-    def make_request(self):
-        if self.holder != self and (not self.request_q.empty()) and (not self.asked):
-            self.asked = True
-            self.holder.receive_request(self)
+    def make_request(self, node):
+        if self.holder != self and (not self.request_q.empty()) and (not node.asked):
+            node.set_asked(True)
+            self.holder.make_request(node)
 
-            print("Node " + str(self.id) + " made a request.")
+            print("Node " + str(self.id) + " fowarded the request of node " + str(node.get_id()) + " to node " + str(self.holder.get_id()) + ".")
+        
+        elif self.holder == self:
+
+            self.request_q.put(node)
+
+            print("Node " + str(self.id) + " which holds the privilege received a request from node " + str(node.get_id()) + ".")
+
+            self.assign_privilege()
 
     def assign_privilege(self):
         if self.holder == self and (not self.using) and (not self.request_q.empty()):
             self.holder = self.request_q.get()
-            self.asked = False
-            
-            if self.holder == self:
-                self.using = True
+            self.holder.set_asked(False)
+            self.holder.set_using(True)
 
-                """
-                Enters the critical section.
-                """
+            """
+            Enters the critical section.
+            """
 
-                self.execute()
-                self.exit_critical_section()
+            print("Node " + str(self.id) + " entered the critical secion.")
 
-                """
-                Leaves the critical section.
-                """
- 
-
-            else:
-                
-                print("Node " + str(self.id) + " passed the privilege to node " + str(self.holder.get_id()) + ".")
-
-                self.holder.request_privilege()
-
-        print("Node " + str(self.holder.get_id()) + " get the token.")
-
-    def execute(self):
-        print("Node " + str(self.id) + " is executing.")
-    
     def exit_critical_section(self):
 
         print("Node " + str(self.id) + " is exiting the critical section.")
 
         self.using = False
         self.assign_privilege()
-        self.make_request()
 
-    def receive_request(self, node):
+    # def receive_request(self, node):
 
-        print("Node " + str(self.id) + " received a request from node " + str(node.get_id()) + ".")
+    #     print("Node " + str(self.id) + " received a request from node " + str(node.get_id()) + ".")
 
-        self.request_q.put(node)
-        self.assign_privilege()
-        self.make_request()
+    #     self.request_q.put(node)
+    #     self.assign_privilege()
+    #     self.make_request()
 
-    def request_privilege(self):
-        self.holder = self
-        self.assign_privilege()
-        self.make_request()
+    # def request_privilege(self):
+    #     self.holder = self
+    #     self.assign_privilege()
+    #     self.make_request()
     
-    def enter_critical_section(self):
-        self.request_q.put(self)
-        self.assign_privilege()
-        self.make_request()
+    # def enter_critical_section(self):
+        # self.request_q.put(self)
+    #     self.assign_privilege()
+    #     self.make_request()
     
