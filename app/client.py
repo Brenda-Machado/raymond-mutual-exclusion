@@ -19,8 +19,6 @@ PORT = 65432  # A porta usada pelo servidor
 
 client =  socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-client.connect((HOST, PORT))
-
 
 """
 Method main() is used to send commands to the server.
@@ -37,7 +35,6 @@ def main():
         print("get <key>")
         print("set <key> <value>")
         print("exit")
-        print("help")
 
         data = input("Enter a command: ")
         client.sendall(data.encode("utf-8"))
@@ -49,3 +46,6 @@ def main():
             break
 
     client.close()
+
+if __name__ == "__main__":
+    main()
